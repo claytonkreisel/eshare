@@ -1,9 +1,9 @@
 import Templates from "../Templates.js";
+import {fetchAll} from "../provider/ajax/Incidents/fetchAll.js";
+import moment from "../vendor/moment.js";
 
-// import yourWayForSpeeding from "../../../provider/you/?";
+import GroupedIncidents from "../provider/claytonkreisel/GroupedIncidents.js";
 // import yourWayForIdling from "../../../provider/you/?";
-// import yourWayForStart from "../../../provider/you/?";
-// import yourWayForEnd from "../../../provider/you/?";
 
 import SpeedingBarChartComponent from "../components/SpeedingBarChart.js";
 import IdlingBarChartComponent from "../components/IdlingBarChart.js";
@@ -33,10 +33,34 @@ var HomeView = {
 
 	"on": {
 		init(){
-			// this.set( "speedingMonths", /* your way of fetching months of speeding incidents */ );
-			// this.set( "idlingMonths", /* your way of fetching months of idling incidents */ );
-			// this.set( "startCenter", /* your way of fetching the start location for an asset */ );
-			// this.set( "endCenter", /* your way of fetching the end location for an asset */ );
+
+			//Set Dates
+			let beginningDate = moment().subtract(11, 'months').startOf('month');
+			let endDate = moment().endOf('day');
+
+			//Get and Filter and Sort incidents
+			let incidents = fetchAll();
+			incidents = incidents.filter((incident) => {
+				let incidentDate = new Date(incident.date);
+				return (incidentDate <= endDate && incidentDate >= beginningDate) && incident.asset == "alpha";
+			});
+			incidents.sort(function(a, b){
+				const aDate = new Date(a.date);
+				const bDate = new Date(b.date);
+				if(aDate > bDate){
+					return 1;
+				} else if(aDate < bDate){
+					return -1;
+				}
+				return 0;
+			});
+
+			const speedingGroup = new GroupedIncidents(incidents, 'overspeed');
+			const idleGroup = new GroupedIncidents(incidents, 'idle');
+			this.set( "speedingMonths", speedingGroup.getIncidentsByMonth() );
+			this.set( "idlingMonths", idleGroup.getIncidentsByMonth() );
+			this.set( "startCenter", incidents[0].location );
+			this.set( "endCenter", incidents[incidents.length - 1].location );
 		},
 		complete(){
 			setTimeout( () => {

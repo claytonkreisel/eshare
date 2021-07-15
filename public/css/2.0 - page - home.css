@@ -1,0 +1,37 @@
+body > .view.home{
+    width: 85%;
+
+    margin: auto;
+}
+
+body > .view.home .charts{
+    width: 100%;
+
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: nowrap;
+}
+
+body > .view.home .charts .chart{
+    width: 45%;
+    max-width: 55rem;
+
+    flex: 1;
+}
+
+body > .view.home .maps{
+    width: 100%;
+
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: nowrap;
+}
+
+body > .view.home .maps .map-container > div{
+    width: 45rem;
+    max-width: 45rem;
+
+    height: 30rem;
+
+    flex: 1;
+}

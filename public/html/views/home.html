@@ -1,0 +1,31 @@
+<div class="view home">
+    <h1>Asset <em>Alpha</em> Dashboard</h1>
+    <div class="charts">
+        <div class="chart">
+            <speeding-bar-chart
+                months="{{ speedingMonths }}" />
+        </div>
+        <div class="chart">
+            <idling-bar-chart
+                months="{{ idlingMonths }}"/>
+        </div>
+    </div>
+    <div class="maps">
+        <div class="map-container">
+            <h3><em>Alpha</em> Start Location</h3>
+            <map
+                zoom="17"
+                type="light"
+                latitude="{{ startCenter.latitude }}"
+                longitude="{{ startCenter.longitude }}" />
+        </div>
+        <div class="map-container">
+            <h3><em>Alpha</em> End Location</h3>
+            <map
+                zoom="18"
+                type="satellite"
+                latitude="{{ endCenter.latitude }}"
+                longitude="{{ endCenter.longitude }}" />
+        </div>
+    </div>
+</div>
